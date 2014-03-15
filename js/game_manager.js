@@ -67,7 +67,7 @@ GameManager.prototype.actuate = function () {
 
 // Save all tile positions and remove merger info
 GameManager.prototype.prepareTiles = function () {
-  this.grid.eachCell(function (x, y, z, tile) {
+  this.grid.eachCell(function (x, y, z, w, tile) {
     if (tile) {
       tile.mergedFrom = null;
       tile.savePosition();
