@@ -151,8 +151,8 @@ hr {
   -moz-user-select: none;
   background: #bbada0;
   border-radius: 6px;
-  width: 800px;
-  height: 800px;
+  width: 640px;
+  height: 640px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
@@ -196,6 +196,7 @@ hr {
       display: block; }
 
 .grid-container-container {
+  opacity: 0;
   position: absolute;
   z-index: 1; }
 
