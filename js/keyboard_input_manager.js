@@ -42,6 +42,8 @@ KeyboardInputManager.prototype.listen = function () {
 	  69:  5, // E
 	  90:  6, // Z
 	  67:  7, // C
+	  50:  6, // 2
+	  88:  7, // X
   };
 
   document.addEventListener("keydown", function (event) {
