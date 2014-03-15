@@ -195,15 +195,19 @@ hr {
     .game-container .game-message.game-won, .game-container .game-message.game-over {
       display: block; }
 
-.grid-container {
+.grid-container-container {
   position: absolute;
   z-index: 1; }
 
+.grid-container-container.level2 {
+  top: 395px; }
+
+.grid-container {
+  position: absolute;
+  z-index: 2; }
+
 .grid-container.level2 {
   left: 395px; }
-
-.grid-container.level3 {
-  left: 775px; }
 
 .grid-row {
   margin-bottom: 15px; }
@@ -226,7 +230,7 @@ hr {
 
 .tile-container {
   position: absolute;
-  z-index: 2; }
+  z-index: 3; }
 
 .tile {
   width: 106.25px;
