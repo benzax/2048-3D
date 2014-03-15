@@ -78,7 +78,7 @@ GameManager.prototype.prepareTiles = function () {
 // Move a tile and its representation
 GameManager.prototype.moveTile = function (tile, cell) {
   this.grid.cells[tile.x][tile.y][tile.z][tile.w] = null;
-  this.grid.cells[cell.x][cell.y][cell.z][tile.w] = tile;
+  this.grid.cells[cell.x][cell.y][cell.z][cell.w] = tile;
   tile.updatePosition(cell);
 };
 
