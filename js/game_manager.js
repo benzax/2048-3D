@@ -77,8 +77,8 @@ GameManager.prototype.prepareTiles = function () {
 
 // Move a tile and its representation
 GameManager.prototype.moveTile = function (tile, cell) {
-  this.grid.cells[tile.x][tile.y][tile.z] = null;
-  this.grid.cells[cell.x][cell.y][cell.z] = tile;
+  this.grid.cells[tile.x][tile.y][tile.z][tile.w] = null;
+  this.grid.cells[cell.x][cell.y][cell.z][tile.w] = tile;
   tile.updatePosition(cell);
 };
 
@@ -102,7 +102,8 @@ GameManager.prototype.move = function (direction) {
   traversals.x.forEach(function (x) {
     traversals.y.forEach(function (y) {
 	  traversals.z.forEach(function (z) {
-        cell = { x: x, y: y, z: z };
+	    traversals.w.forEach(function (w)) {
+        cell = { x: x, y: y, z: z, w: w };
         tile = self.grid.cellContent(cell);
 
         if (tile) {
@@ -133,6 +134,7 @@ GameManager.prototype.move = function (direction) {
             moved = true; // The tile moved from its original cell!
           }
         }
+	    });
 	  });
     });
   });
@@ -153,12 +155,14 @@ GameManager.prototype.move = function (direction) {
 GameManager.prototype.getVector = function (direction) {
   // Vectors representing tile movement
   var map = {
-    0: { x: 0,  y: -1, z: 0  },  // up
-    1: { x: 1,  y: 0,  z: 0  },  // right
-    2: { x: 0,  y: 1,  z: 0  },  // down
-    3: { x: -1, y: 0,  z: 0  },  // left
-	4: { x: 0,  y: 0,  z: -1 },  // front
-	5: { x: 0,  y: 0,  z: 1  }   // back
+    0: { x: 0,  y: -1, z: 0,  w: 0  },  // up
+    1: { x: 1,  y: 0,  z: 0,  w: 0  },  // right
+    2: { x: 0,  y: 1,  z: 0,  w: 0  },  // down
+    3: { x: -1, y: 0,  z: 0,  w: 0  },  // left
+    4: { x: 0,  y: 0,  z: -1, w: 0  },  // front
+    5: { x: 0,  y: 0,  z: 1,  w: 0  },   // back
+    6: { x: 0,  y: 0,  z: 0,  w: -1 },  // in
+    7: { x: 0,  y: 0,  z: 0,  w: 1  },  // out
 		  };
 
   return map[direction];
@@ -166,18 +170,20 @@ GameManager.prototype.getVector = function (direction) {
 
 // Build a list of positions to traverse in the right order
 GameManager.prototype.buildTraversals = function (vector) {
-  var traversals = { x: [], y: [], z: [] };
+  var traversals = { x: [], y: [], z: [], w: [] };
 
   for (var pos = 0; pos < this.size; pos++) {
     traversals.x.push(pos);
     traversals.y.push(pos);
-	traversals.z.push(pos);
+    traversals.z.push(pos);
+    traversals.w.push(pos);
   }
 
   // Always traverse from the farthest cell in the chosen direction
   if (vector.x === 1) traversals.x = traversals.x.reverse();
   if (vector.y === 1) traversals.y = traversals.y.reverse();
   if (vector.z === 1) traversals.z = traversals.z.reverse();
+  if (vector.w === 1) traversals.w = traversals.w.reverse();
 
   return traversals;
 };
@@ -189,7 +195,7 @@ GameManager.prototype.findFarthestPosition = function (cell, vector) {
   do {
     previous = cell;
     cell     = { x: previous.x + vector.x, y: previous.y + vector.y,
-					z: previous.z + vector.z};
+		 z: previous.z + vector.z, w: previous.w + vector.w};
   } while (this.grid.withinBounds(cell) &&
            this.grid.cellAvailable(cell));
 
@@ -211,15 +217,17 @@ GameManager.prototype.tileMatchesAvailable = function () {
 
   for (var x = 0; x < this.size; x++) {
     for (var y = 0; y < this.size; y++) {
-	  for (var z = 0; z < this.size; z++) {
-      	tile = this.grid.cellContent({ x: x, y: y, z: z });
+      for (var z = 0; z < this.size; z++) {
+      	for (var w = 0; w < this.size; w++) {
+      	tile = this.grid.cellContent({ x: x, y: y, z: z, w: w });
 
       	if (tile) {
-          for (var direction = 0; direction < 6; direction++) {
+          for (var direction = 0; direction < 8; direction++) {
             var vector = self.getVector(direction);
             var cell   = {  x: x + vector.x, 
 							y: y + vector.y,
-							z: z + vector.z };
+							z: z + vector.z,
+							w: w + vector.w };
 
             var other  = self.grid.cellContent(cell);
 
@@ -238,5 +246,6 @@ GameManager.prototype.tileMatchesAvailable = function () {
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x &&
   		 first.y === second.y &&
-		 first.z === second.z;
+  		 first.z === second.z &&
+		 first.w === second.w;
 };
