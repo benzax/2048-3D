@@ -102,7 +102,7 @@ GameManager.prototype.move = function (direction) {
   traversals.x.forEach(function (x) {
     traversals.y.forEach(function (y) {
 	  traversals.z.forEach(function (z) {
-	    traversals.w.forEach(function (w)) {
+	    traversals.w.forEach(function (w) {
         cell = { x: x, y: y, z: z, w: w };
         tile = self.grid.cellContent(cell);
 
