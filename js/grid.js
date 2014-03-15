@@ -50,11 +50,12 @@ Grid.prototype.availableCells = function () {
 Grid.prototype.eachCell = function (callback) {
   for (var x = 0; x < this.size; x++) {
     for (var y = 0; y < this.size; y++) {
-	  for (var z = 0; z < this.size; z++) {
-	    for (var w = 0; w < this.size; w++) {
-      	callback(x, y, z, w, this.cells[x][y][z][w]);
-      }
-	}
+	    for (var z = 0; z < this.size; z++) {
+	      for (var w = 0; w < this.size; w++) {
+      	  callback(x, y, z, w, this.cells[x][y][z][w]);
+        }
+	    }
+	  }
   }
 };
 
