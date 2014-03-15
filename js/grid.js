@@ -37,7 +37,7 @@ Grid.prototype.randomAvailableCell = function () {
 Grid.prototype.availableCells = function () {
   var cells = [];
 
-  this.eachCell(function (w, x, y, z, tile) {
+  this.eachCell(function (x, y, z, w, tile) {
     if (!tile) {
       cells.push({ x: x, y: y, z: z, w: w });
     }
