@@ -162,7 +162,7 @@ GameManager.prototype.getVector = function (direction) {
     4: { x: 0,  y: 0,  z: -1, w: 0  },  // front
     5: { x: 0,  y: 0,  z: 1,  w: 0  },   // back
     6: { x: 0,  y: 0,  z: 0,  w: -1 },  // in
-    7: { x: 0,  y: 0,  z: 0,  w: 1  },  // out
+    7: { x: 0,  y: 0,  z: 0,  w: 1  }  // out
 		  };
 
   return map[direction];
@@ -236,7 +236,8 @@ GameManager.prototype.tileMatchesAvailable = function () {
             }
           }
         }
-	  }
+      	}
+      }
     }
   }
 
