@@ -15,11 +15,13 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 
     grid.cells.forEach(function (column) {
       column.forEach(function (column3d) {
-	    column3d.forEach(function (cell) {
-          if (cell) {
-            self.addTile(cell);
-          }
-		});
+	      column3d.forEach(function (column4d) {
+	        column4d.forEach(function (cell) {
+            if (cell) {
+              self.addTile(cell);
+            }
+	        });
+		    });
       });
     });
 
@@ -45,8 +47,8 @@ HTMLActuator.prototype.addTile = function (tile) {
   var self = this;
 
   var element   = document.createElement("div");
-  // TODO using only 2 of 3 coordinates
-  var position  = tile.previousPosition || { x: tile.x, y: tile.y, z: tile.z};
+  // TODO using only 2 of 4 coordinates?
+  var position  = tile.previousPosition || { x: tile.x, y: tile.y, z: tile.z, w: tile.w};
   positionClass = this.positionClass(position);
 
   // We can't use classlist because it somehow glitches when replacing classes
@@ -58,7 +60,7 @@ HTMLActuator.prototype.addTile = function (tile) {
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
     window.requestAnimationFrame(function () {
-      classes[2] = self.positionClass({ x: tile.x, y: tile.y, z: tile.z });
+      classes[2] = self.positionClass({ x: tile.x, y: tile.y, z: tile.z, w: tile.w });
       self.applyClasses(element, classes); // Update the position
     });
   } else if (tile.mergedFrom) {
@@ -83,12 +85,12 @@ HTMLActuator.prototype.applyClasses = function (element, classes) {
 };
 
 HTMLActuator.prototype.normalizePosition = function (position) {
-  return { x: position.x + 1, y: position.y + 1, z: position.z + 1 };
+  return { x: position.x + 1, y: position.y + 1, z: position.z + 1, w: position.w + 1 };
 };
 
 HTMLActuator.prototype.positionClass = function (position) {
   position = this.normalizePosition(position);
-  return "tile-position-" + position.x + "-" + position.y + "-" + position.z;
+  return "tile-position-" + position.x + "-" + position.y + "-" + position.z + "-" + position.w;
 };
 
 HTMLActuator.prototype.updateScore = function (score) {
