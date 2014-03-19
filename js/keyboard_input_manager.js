@@ -24,10 +24,10 @@ KeyboardInputManager.prototype.listen = function () {
   var self = this;
 
   var map = {
-    38:  0+4, // Up
-    39:  1+4, // Right
-    40:  2+4, // Down
-    37:  3+4, // Left
+    38:  6, // Up
+    39:  5, // Right
+    40:  7, // Down
+    37:  4, // Left
 	  109: 4, // Minus
 	  107: 5, // Plus
     75:  0, // vim keybindings
